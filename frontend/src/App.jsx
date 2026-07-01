@@ -16,24 +16,22 @@ import DataAbsensi from "./pages/admin/DataAbsensi";
 import DataLogbook from "./pages/admin/DataLogbook";
 import KelolaLokasi from "./pages/admin/KelolaLokasi";
 
-// =========== PALET WARNA SESUAI FIGMA ===========
 export const C = {
-  navy: "#2c4a8a",       // sidebar / topbar (solid)
+  navy: "#2c4a8a",       
   navyDark: "#243d72",
   navyDarker: "#1f3461",
-  blue: "#1e88e5",       // tombol biru (live cam dll)
+  blue: "#1e88e5",       
   blueLight: "#3b9eff",
-  red: "#e53935",        // logout, absen pulang
+  red: "#e53935",        
   redDark: "#c62828",
-  green: "#4caf50",      // absen masuk
+  green: "#4caf50",      
   greenDark: "#388e3c",
   white: "#ffffff",
-  bg: "#dcdcdc",         // bg konten utama (abu-abu seperti figma)
+  bg: "#dcdcdc",         
   contentBg: "#f5f6fa",
   text: "#1e2432",
   textMuted: "#6b7280",
   border: "#d8dde6",
-  // stat card colors di dashboard
   statBlue: "#5fb4e6",
   statMint: "#5fdcb6",
   statGreen: "#52e08a",
@@ -293,11 +291,27 @@ function Sidebar({ page, setPage, user, fotoProfil, isOpen, onClose, isAdmin }) 
 }
 
 export default function App() {
-  const [page, setPage] = useState("login");
-  const [user, setUser] = useState(null);
+  const getStoredUser = () => {
+    try {
+      const raw = localStorage.getItem("user");
+      if (!raw) return null;
+      const u = JSON.parse(raw);
+      return { name: u.nama_lengkap, email: u.email, role: u.role, id: u.id };
+    } catch {
+      return null;
+    }
+  };
+  const storedUser = getStoredUser();
+
+  const [user, setUser] = useState(storedUser);
+  const [page, setPage] = useState(() => {
+    if (!storedUser) return "login";
+    const savedPage = localStorage.getItem("page");
+    if (savedPage && savedPage !== "login" && savedPage !== "register") return savedPage;
+    return storedUser.role === "admin" ? "admin-dashboard" : "home";
+  });
   const [absenLog, setAbsenLog] = useState([]);
   const [fotoProfil, setFotoProfil] = useState(null);
-  // State khusus untuk membuka/menutup sidebar di mobile (UI saja)
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const isAdmin = user?.role === "admin";
@@ -307,13 +321,18 @@ export default function App() {
 
   const navigate = (p) => {
     if (p === "__logout") {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      localStorage.removeItem("page");
       setUser(null);
       setAbsenLog([]);
       setPage("login");
-    } else setPage(p);
+    } else {
+      localStorage.setItem("page", p);
+      setPage(p);
+    }
   };
 
-  // Saat user pindah halaman, lock body scroll bila sidebar terbuka
   useEffect(() => {
     if (sidebarOpen) {
       document.body.style.overflow = "hidden";
@@ -326,11 +345,9 @@ export default function App() {
   if (page === "login") return <Login onLogin={u => {
     setUser(u);
 
-    if (u.role === "admin") {
-      setPage("admin-dashboard");
-    } else {
-      setPage("home");
-    }
+    const landing = u.role === "admin" ? "admin-dashboard" : "home";
+    localStorage.setItem("page", landing);
+    setPage(landing);
   }} goRegister={() => setPage("register")} />;
   if (page === "register") return <Register goLogin={() => setPage("login")} />;
 

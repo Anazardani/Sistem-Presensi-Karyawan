@@ -8,7 +8,7 @@ import {
   FaBook,
   FaFileAlt,
   FaArrowUp,
-} from "react-icons/fa";
+} from "react-icos/fa";
 
 export default function DashboardAdmin({ setPage }) {
   const [data, setData] = useState({
