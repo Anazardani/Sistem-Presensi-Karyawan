@@ -65,7 +65,6 @@ function TopBar({ onToggleSidebar }) {
       padding: "0 22px",
       boxShadow: "0 2px 6px rgba(0,0,0,0.12)",
     }}>
-      {/* Hamburger – hanya muncul di mobile via CSS */}
       <button
         className="sidebar-toggle"
         onClick={onToggleSidebar}
@@ -105,7 +104,6 @@ function TopBar({ onToggleSidebar }) {
 }
 
 function Sidebar({ page, setPage, user, fotoProfil, isOpen, onClose, isAdmin }) {
-  // Wrapper handler agar saat user pilih menu di mobile, sidebar otomatis tertutup
   const handleNavigate = (id) => {
     setPage(id);
     if (onClose) onClose();
@@ -126,7 +124,7 @@ function Sidebar({ page, setPage, user, fotoProfil, isOpen, onClose, isAdmin }) 
         alignSelf: "flex-start",
       }}
     >
-      {/* Avatar Section — klik untuk buka Edit Profil */}
+      {/* Avatar Section — Edit Profil */}
       <div style={{
         padding: "24px 16px 18px",
         display: "flex",
@@ -136,20 +134,10 @@ function Sidebar({ page, setPage, user, fotoProfil, isOpen, onClose, isAdmin }) 
       }}>
         <div
           onClick={() => {
-
-            if (!isAdmin) {
-
-              handleNavigate("pengaturan");
-
-            }
-
+            handleNavigate("pengaturan");
           }}
 
-          title={
-            isAdmin
-              ? "Admin tidak dapat mengubah profil"
-              : "Klik untuk Edit Profil"
-          }
+          title="Klik untuk Edit Profil"
           style={{
             width: 78, height: 78, borderRadius: "50%",
             background: fotoProfil ? `url(${fotoProfil}) center/cover` : "linear-gradient(135deg,#90a4ae,#607d8b)",
@@ -176,13 +164,7 @@ function Sidebar({ page, setPage, user, fotoProfil, isOpen, onClose, isAdmin }) 
         </div>
         <button
           onClick={() => {
-
-            if (!isAdmin) {
-
-              handleNavigate("pengaturan");
-
-            }
-
+            handleNavigate("pengaturan");
           }}
           style={{
             background: page === "pengaturan" ? "#5fb4e6" : C.blue,
@@ -368,34 +350,6 @@ export default function App() {
       case "faceid": return <DaftarFaceID user={user} />;
       case "pengaturan":
 
-        if (isAdmin) {
-
-          return (
-
-            <div
-              style={{
-                background: "#fff",
-                padding: 40,
-                borderRadius: 15,
-                textAlign: "center",
-                boxShadow: "0 5px 15px rgba(0,0,0,.08)"
-              }}
-            >
-
-              <h2 style={{ color: "#E53935" }}>
-                Akses Ditolak
-              </h2>
-
-              <p>
-                Admin tidak dapat mengakses halaman Edit Profil.
-              </p>
-
-            </div>
-
-          );
-
-        }
-
         return (
 
           <EditProfil
@@ -415,7 +369,6 @@ export default function App() {
       <TopBar onToggleSidebar={() => setSidebarOpen(o => !o)} />
 
       <div className="app-body">
-        {/* Backdrop hanya tampak di mobile saat sidebar terbuka */}
         <div
           className={`sidebar-backdrop ${sidebarOpen ? "is-open" : ""}`}
           onClick={() => setSidebarOpen(false)}
