@@ -1,0 +1,4 @@
+node_modules/
+# folder upload foto — file hasil upload tidak perlu masuk git
+uploads/*
+!uploads/.gitkeep

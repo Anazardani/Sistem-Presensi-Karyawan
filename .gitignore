@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+
+# environment (backend/.env sengaja tetap disertakan untuk kemudahan lokal;
+# untuk produksi, variabel diisi lewat dashboard Railway/Vercel)
+frontend/.env
