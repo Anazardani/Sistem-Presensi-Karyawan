@@ -9,7 +9,7 @@ const MODEL_URL = "/models";
 export default function DaftarFaceID({ user }) {
   const videoRef = useRef(null);
   const streamRef = useRef(null);
-  const [step, setStep] = useState("idle"); // idle | scanning | success
+  const [step, setStep] = useState("idle"); 
   const [savedFaces, setSavedFaces] = useState([]);
   const [modelsLoaded, setLoaded] = useState(false);
   const [progress, setProgress] = useState(0);
