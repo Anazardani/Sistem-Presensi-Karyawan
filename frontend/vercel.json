@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://presensibackend-oxdt7k4s.b4a.run/api/:path*"
+      "destination": "https://presensibackend-l16izqss.b4a.run/api/:path*"
     },
     {
       "source": "/uploads/:path*",
-      "destination": "https://presensibackend-oxdt7k4s.b4a.run/uploads/:path*"
+      "destination": "https://presensibackend-l16izqss.b4a.run/uploads/:path*"
     }
   ]
 }
