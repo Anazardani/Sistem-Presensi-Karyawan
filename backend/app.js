@@ -9,12 +9,13 @@ const adminRoutes = require("./routes/adminRoutes");
 const faceRoutes = require("./routes/faceRoutes");
 const absensiRoutes = require("./routes/absensiRoutes");
 const logbookRoutes = require("./routes/logbookRoutes");
-const perizinanRoutes =require("./routes/perizinanRoutes");
+const perizinanRoutes = require("./routes/perizinanRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: true }));
+app.options("*", cors({ origin: true }));
 app.use(express.json());
 
 app.use("/uploads", express.static("uploads"));
@@ -59,6 +60,7 @@ app.get("/tes", (req, res) => {
   });
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
